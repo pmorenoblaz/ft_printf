@@ -1,30 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmoreno- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/16 17:57:02 by pmoreno-          #+#    #+#             */
+/*   Updated: 2022/01/16 17:57:06 by pmoreno-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int	ft_conversion(va_list args_list, char c)
 {
-	int	res;
-
-	res = 1;
 	if (c == 'c')
 		return (ft_putchr(va_arg(args_list, int)));
 	else if (c == 's')
 		return (ft_putstr(va_arg(args_list, char *)));
 	else if (c == 'p')
-	{
-		write(1, "0x", 2);
-		res = ft_putnbr_base(va_arg(args_list, unsigned long int), "0123456789abcdef", c);
-		return (res + 2);
-	}
+		return (write(1, "0x", 2) + ft_putnbr_base
+			(va_arg(args_list, unsigned long int), "0123456789abcdef"));
 	else if (c == 'd')
 		return (ft_putnbr(va_arg(args_list, int), "0123456789", c));
 	else if (c == 'i')
 		return (ft_putnbr(va_arg(args_list, int), "0123456789", c));
 	else if (c == 'u')
-		return (ft_putnbr_base(va_arg(args_list, int), "0123456789", c));
+		return (ft_unsig_putnbr_base(va_arg(args_list, int), "0123456789"));
 	else if (c == 'x')
-		return (ft_putnbr_base(va_arg(args_list, int), "0123456789abcdef", c));
+		return (ft_unsig_putnbr_base(va_arg(args_list, int),
+				"0123456789abcdef"));
 	else if (c == 'X')
-		return (ft_putnbr_base(va_arg(args_list, int), "0123456789ABCDEF", c));
+		return (ft_unsig_putnbr_base(va_arg(args_list, int),
+				"0123456789ABCDEF"));
 	else
 		return (ft_putchr(c));
 }
@@ -55,24 +63,3 @@ int	ft_printf(const char *str, ...)
 	va_end(args_list);
 	return (res);
 }
-
-// int	main()
-// {
-// 	int	res;
-// 	int	res2;
-// 	void	*ptr;
-
-// 	ptr = malloc(17);
-
-// printf("%p\n",ptr);
-
-// 	res = 0;
-// 	res2 = 0;
-// 	printf("\n**********************\n");
-// 	res = ft_printf(" %p ", 15);
-// 	printf("\nNum de chars: %d\n", res);
-// 	res2 = printf(" %p ", 15);
-// 	printf("\nNum de chars printf: %d", res2);
-// 	printf("\n**********************\n");
-// 	return (0);
-// }
