@@ -6,117 +6,73 @@ int	ft_conversion(va_list args_list, char c)
 
 	res = 1;
 	if (c == 'c')
-	{
 		return (ft_putchr(va_arg(args_list, int)));
-	}
 	else if (c == 's')
 		return (ft_putstr(va_arg(args_list, char *)));
 	else if (c == 'p')
-		return (0);
+	{
+		write(1, "0x", 2);
+		res = ft_putnbr_base(va_arg(args_list, unsigned long int), "0123456789abcdef", c);
+		return (res + 2);
+	}
 	else if (c == 'd')
-		return (0);
+		return (ft_putnbr(va_arg(args_list, int), "0123456789", c));
 	else if (c == 'i')
-		return (0);
+		return (ft_putnbr(va_arg(args_list, int), "0123456789", c));
 	else if (c == 'u')
-		return (0);
+		return (ft_putnbr_base(va_arg(args_list, int), "0123456789", c));
 	else if (c == 'x')
-		return (0);
+		return (ft_putnbr_base(va_arg(args_list, int), "0123456789abcdef", c));
 	else if (c == 'X')
-		return (0);
-	return (res);
+		return (ft_putnbr_base(va_arg(args_list, int), "0123456789ABCDEF", c));
+	else
+		return (ft_putchr(c));
 }
 
 int	ft_printf(const char *str, ...)
 {
 	va_list	args_list;
-	int		pos[2];
+	int		i;
 	int		res;
 
-	pos[0] = 0;
-	pos[1] = 1;
+	i = 0;
 	res = 0;
 	va_start(args_list, str);
-	while (str[pos[1]] != 0)
+	while (str[i] != 0)
 	{
-		if (str[pos[0]] == '%')
+		if (str[i] == '%')
 		{
-			if (str[pos[1]] == '%'){
-				res += write(1, "%", 1);}
-			else
-			{	
-				res += ft_conversion(args_list, str[pos[1]]);
-			}
-			pos[0]++;
-			pos[1]++;
+			if (i + 1 < ft_strlen(str))
+				res += ft_conversion(args_list, str[i + 1]);
+			i++;
 		}
-		pos[0]++;
-		pos[1]++;
+		else
+		{
+			res += write(1, &str[i], 1);
+		}
+		i++;
 	}
 	va_end(args_list);
 	return (res);
 }
-/*
-int	main()
-{
-	int	res;
-	int	res2;
 
-	res = 0;
-	res2 = 0;
-//	ft_printf("%c", '0');
-	printf("\n**********************\n");
-	res = ft_printf("%c", '0');
-	printf("\nNum de chars: %d\n", res);
-	res2 = printf("%c", '0');
-	printf("\nNum de chars printf: %d", res2);
-	printf("\n**********************\n");
-//	ft_printf(" %c ", '0');
-	res = ft_printf(" %c", '0');
-	printf("\nNum de chars: %d\n", res);
-	res2 = printf(" %c", '0');
-	printf("\nNum de chars printf: %d\n\n--------> Prueba real:\n", res2);
-	printf("\n**********************\n");
-// ft_printf(" %c", '0' - 256);
-	res = ft_printf(" %c", '0' - 256);
-	printf("\nNum de chars: %d\n", res);
-	res2 = printf("%c", '0' - 256);
-	printf("\nNum de chars printf: %d\n\n--------> Prueba real:\n", res2);
-	printf("\n**********************\n");
-// ft_printf("%c ", '0' + 256);
-	res = ft_printf("%c ", '0' + 256);
-	printf("\nNum de chars: %d\n", res);
-	res2 = printf("%c", '0' + 256);
-	printf("\nNum de chars printf: %d\n\n--------> Prueba real:\n", res2);
-	printf("\n**********************\n");
-//	ft_printf(" %c %c %c ", '0', 0, '1');
-	res = ft_printf(" %c %c %c ", '0', 0, '1');
-	printf("\nNum de chars: %d\n", res);
-	res2 = printf(" %c %c %c ", '0', 0, '1');
-	printf("\nNum de chars printf: %d\n\n--------> Prueba real:\n", res2);
-	printf("\n**********************\n");
-//	ft_printf(" %c %c %c ", ' ', ' ', ' ');
-	res = ft_printf(" %c %c %c ", ' ', ' ', ' ');
-	printf("\nNum de chars: %d\n", res);
-	res2 = printf(" %c %c %c ", ' ', ' ', ' ');
-	printf("\nNum de chars printf: %d\n\n--------> Prueba real:\n", res2);
-	printf("\n**********************\n");
-//	ft_printf(" %c %c %c ", '1', '2', '3');
-	res = ft_printf(" %c %c %c ", '1', '2', '3');
-	printf("\nNum de chars: %d\n", res);
-	res2 = printf(" %c %c %c ", '1', '2', '3');
-	printf("\nNum de chars printf: %d\n\n--------> Prueba real:\n", res2);
-	printf("\n**********************\n");
-//	ft_printf(" %c %c %c ", '2', '1', 0);
-	res = ft_printf(" %c %c %c ", '2', '1', 0);
-	printf("\nNum de chars: %d\n", res);
-	res2 = printf(" %c %c %c ", '2', '1', 0);
-	printf("\nNum de chars printf: %d\n\n--------> Prueba real:\n", res2);
-	printf("\n**********************\n");
-//	ft_printf(" %c %c %c ", 0, '1', '2');
-	res = ft_printf(" %c %c %c ", 0, '1', '2');
-	printf("\nNum de chars: %d\n", res);
-	res2 = printf(" %c %c %c ", 0, '1', '2');
-	printf("\nNum de chars printf: %d\n\n--------> Prueba real:\n", res2);
-	printf("\n**********************\n");
-}
-*/
+// int	main()
+// {
+// 	int	res;
+// 	int	res2;
+// 	void	*ptr;
+
+// 	ptr = malloc(17);
+
+// printf("%p\n",ptr);
+
+// 	res = 0;
+// 	res2 = 0;
+// 	printf("\n**********************\n");
+// 	res = ft_printf(" %p ", 15);
+// 	printf("\nNum de chars: %d\n", res);
+// 	res2 = printf(" %p ", 15);
+// 	printf("\nNum de chars printf: %d", res2);
+// 	printf("\n**********************\n");
+// 	return (0);
+// }
