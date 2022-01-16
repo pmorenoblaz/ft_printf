@@ -1,11 +1,11 @@
 #include "ft_printf.h"
 
-int	ft_putchar(char c)
+int	ft_putchr(const char c)
 {
 	return (write(1, &c, 1));
 }
 
-int	ft_putstr(char *str)
+int	ft_putstr(const char *str)
 {
 	int	i;
 
@@ -14,7 +14,7 @@ int	ft_putstr(char *str)
 		return (write(1, "null", 4));
 	while (str[i] != 0)
 	{
-		i += ft_putchar(str[i]);
+		i += ft_putchr(str[i]);
 	}
 	return (i);
 }

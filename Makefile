@@ -1,10 +1,10 @@
-SRCS	= ft_printf.c ft_print_chars.c ft_printf_putnbr_base.c 
+SRCS	= 	ft_printf_chars.c ft_printf_putnbr_base.c ft_printf.c
 
 OBJS	= ${SRCS:.c=.o}
 
 NAME	= libftprintf.a
 
-CFLAGS	= -Wall -Werror -Wextra -c 
+CFLAGS	= -Wall -Werror -Wextra 
 
 GCC	= gcc
 
@@ -14,8 +14,7 @@ RM	= rm -f
 	${GCC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
-		ar rc ${NAME} ${OBJS}
-		ranlib ${NAME} 
+		ar rcs ${NAME} ${OBJS}
 
 all:		${NAME}
 
@@ -27,4 +26,4 @@ fclean:		clean
 
 re:		fclean all
 
-.PHONY:		all clean fclean re
+.PHONY:		all clean fclean re 

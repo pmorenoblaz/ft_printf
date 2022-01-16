@@ -5,7 +5,6 @@ int	ft_putnbr_base(int nbr, char *base)
 	int				cont;
 	unsigned int	unbr;
 	unsigned int	blength;
-	int				s;
 
 	cont = 0;
 	blength = 0;
@@ -17,9 +16,8 @@ int	ft_putnbr_base(int nbr, char *base)
 		nbr = nbr * (-1);
 	}
 	unbr = nbr;
-	//Cambiar esta parte ¿Meter puntero?
 	if (unbr >= blength)
-		ft_putnbr_base(unbr/blength, base);
-	cont += ft_putchar(base[unbr % blength]);
+		ft_putnbr_base(nbr/blength, base);
+	cont += ft_putchr(base[unbr % blength]);
 	return (cont);
 }
